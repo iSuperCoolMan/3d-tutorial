@@ -11,15 +11,13 @@ public class Walk : MonoBehaviour
     private Vector3[] _positions;
     private int _index;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         _positions = new Vector3[] { _endPoint.position, transform.position };
         _index = 0;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (_index < _positions.Length)
         {

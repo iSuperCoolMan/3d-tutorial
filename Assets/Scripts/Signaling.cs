@@ -1,60 +1,39 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Signaling : MonoBehaviour
 {
-    [SerializeField] private GameObject _target;
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private float _volumeChangeSpeed;
+    [SerializeField][Range(0f, 1f)] private float _minVolume;
+    [SerializeField][Range(0f, 1f)] private float _maxVolume;
 
-    private bool _isTargetInside;
-    [SerializeField] [Range(0f, 1f)] private float _minVolume;
-    [SerializeField] [Range(0f, 1f)] private float _maxVolume;
-
-    private void OnTriggerEnter(Collider collision)
+    public IEnumerator FadeIn()
     {
-        if (collision.name == _target.name)
+        _audioSource.Play();
+
+        while (_audioSource.volume < _maxVolume)
         {
-            _audioSource.volume = _minVolume;
-            _audioSource.Play();
-            _isTargetInside = true;
+            _audioSource.volume = Mathf.MoveTowards(_audioSource.volume, _maxVolume, _volumeChangeSpeed * Time.deltaTime);
+            yield return null;
         }
     }
 
-    private void OnTriggerExit(Collider collision)
+    public IEnumerator FadeOut()
     {
-        if (collision.name == _target.name)
+        while (_audioSource.volume > _minVolume)
         {
-            _isTargetInside = false;
+            _audioSource.volume = Mathf.MoveTowards(_audioSource.volume, _minVolume, _volumeChangeSpeed * Time.deltaTime);
+            yield return null;
         }
+
+        _audioSource.Stop();
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        _isTargetInside = false;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (_audioSource.isPlaying)
-        {
-            if (_isTargetInside)
-            {
-                if(_audioSource.volume < _maxVolume)
-                    _audioSource.volume += _volumeChangeSpeed * Time.deltaTime;
-            }
-            else
-            {
-                _audioSource.volume -= _volumeChangeSpeed * Time.deltaTime;
-
-                if (_audioSource.volume == _minVolume)
-                    _audioSource.Stop();
-            }
-        }
+        _audioSource.Stop();
+        _audioSource.volume = _minVolume;
     }
 }
