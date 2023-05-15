@@ -15,7 +15,7 @@ public class Signaling : MonoBehaviour
 
         while (_audioSource.volume < _maxVolume)
         {
-            _audioSource.volume = Mathf.MoveTowards(_audioSource.volume, _maxVolume, _volumeChangeSpeed * Time.deltaTime);
+            MoveVolumeTowards(_maxVolume);
             yield return null;
         }
     }
@@ -24,16 +24,27 @@ public class Signaling : MonoBehaviour
     {
         while (_audioSource.volume > _minVolume)
         {
-            _audioSource.volume = Mathf.MoveTowards(_audioSource.volume, _minVolume, _volumeChangeSpeed * Time.deltaTime);
+            MoveVolumeTowards(_minVolume);
             yield return null;
         }
 
         _audioSource.Stop();
     }
 
+    private void OnValidate()
+    {
+        if (_minVolume >= _maxVolume)
+            _minVolume = _maxVolume;
+    }
+
     private void Start()
     {
         _audioSource.Stop();
         _audioSource.volume = _minVolume;
+    }
+
+    private void MoveVolumeTowards(float target)
+    {
+        _audioSource.volume = Mathf.MoveTowards(_audioSource.volume, target, _volumeChangeSpeed * Time.deltaTime);
     }
 }

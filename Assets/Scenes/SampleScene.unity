@@ -233,8 +233,8 @@ GameObject:
   - component: {fileID: 67574995}
   - component: {fileID: 67574994}
   - component: {fileID: 67574993}
-  - component: {fileID: 67574997}
   - component: {fileID: 67574998}
+  - component: {fileID: 67574999}
   m_Layer: 0
   m_Name: Rogue
   m_TagString: Untagged
@@ -324,20 +324,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &67574997
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 67574992}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f75cb4bef528de04b8981b23bedecd2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _endPoint: {fileID: 1997951571}
-  _speed: 2
 --- !u!54 &67574998
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -354,6 +340,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &67574999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 67574992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f75cb4bef528de04b8981b23bedecd2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _endPoint: {fileID: 1997951571}
+  _speed: 2
 --- !u!1 &68274742
 GameObject:
   m_ObjectHideFlags: 0
@@ -1116,7 +1116,7 @@ MonoBehaviour:
   _audioSource: {fileID: 1353895657}
   _volumeChangeSpeed: 0.04
   _minVolume: 0
-  _maxVolume: 0.213
+  _maxVolume: 0.184
 --- !u!1 &1565552656
 GameObject:
   m_ObjectHideFlags: 0
@@ -1552,5 +1552,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d08b96b3a1e2364996e3267439cd70a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetCollider: {fileID: 67574993}
+  _rogue: {fileID: 67574999}
   _speaker: {fileID: 1353895652}

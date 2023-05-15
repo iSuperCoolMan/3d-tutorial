@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Walk : MonoBehaviour
+public class Rogue : MonoBehaviour
 {
     [SerializeField] private Transform _endPoint;
     [SerializeField] private float _speed;
