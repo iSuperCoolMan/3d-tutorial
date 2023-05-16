@@ -8,13 +8,13 @@ public class Security : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision == _rogue.GetComponent<Collider>())
+        if (collision.GetComponent<Rogue>() == _rogue)
             _speakerSignalling.FadeIn();
     }
 
     private void OnTriggerExit(Collider collision)
     {
-        if (collision == _rogue.GetComponent<Collider>())
+        if (collision.GetComponent<Rogue>() == _rogue)
             _speakerSignalling.FadeOut();
     }
 }
