@@ -4,31 +4,17 @@ using UnityEngine;
 public class Security : MonoBehaviour
 {
     [SerializeField] private Rogue _rogue;
-    [SerializeField] private GameObject _speaker;
+    [SerializeField] private Signaling _speakerSignalling;
 
-    private IEnumerator _fadeInCoroutine;
-    private IEnumerator _fadeOutCoroutine;
-
-    private void Start()
-    {
-        _fadeInCoroutine = _speaker.GetComponent<Signaling>().FadeIn();
-        _fadeOutCoroutine = _speaker.GetComponent<Signaling>().FadeOut();
-    }
     private void OnTriggerEnter(Collider collision)
     {
         if (collision == _rogue.GetComponent<Collider>())
-        {
-            StopCoroutine(_fadeOutCoroutine);
-            StartCoroutine(_fadeInCoroutine);
-        }
+            _speakerSignalling.FadeIn();
     }
 
     private void OnTriggerExit(Collider collision)
     {
         if (collision == _rogue.GetComponent<Collider>())
-        {
-            StopCoroutine(_fadeInCoroutine);
-            StartCoroutine(_fadeOutCoroutine);
-        }
+            _speakerSignalling.FadeOut();
     }
 }

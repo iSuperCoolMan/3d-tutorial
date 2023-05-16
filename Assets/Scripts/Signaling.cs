@@ -9,27 +9,8 @@ public class Signaling : MonoBehaviour
     [SerializeField][Range(0f, 1f)] private float _minVolume;
     [SerializeField][Range(0f, 1f)] private float _maxVolume;
 
-    public IEnumerator FadeIn()
-    {
-        _audioSource.Play();
-
-        while (_audioSource.volume < _maxVolume)
-        {
-            MoveVolumeTowards(_maxVolume);
-            yield return null;
-        }
-    }
-
-    public IEnumerator FadeOut()
-    {
-        while (_audioSource.volume > _minVolume)
-        {
-            MoveVolumeTowards(_minVolume);
-            yield return null;
-        }
-
-        _audioSource.Stop();
-    }
+    private Coroutine _fadeIn;
+    private Coroutine _fadeOut;
 
     private void OnValidate()
     {
@@ -43,8 +24,42 @@ public class Signaling : MonoBehaviour
         _audioSource.volume = _minVolume;
     }
 
-    private void MoveVolumeTowards(float target)
+    public void FadeIn()
     {
-        _audioSource.volume = Mathf.MoveTowards(_audioSource.volume, target, _volumeChangeSpeed * Time.deltaTime);
+        if (_fadeOut != null)
+        {
+            StopCoroutine(_fadeOut);
+            _fadeOut = null;
+        }
+
+        if (_fadeIn == null)
+            _fadeIn = StartCoroutine(MoveVolumeTowards(_maxVolume));
+    }
+
+    public void FadeOut()
+    {
+        if (_fadeIn != null)
+        {
+            StopCoroutine(_fadeIn);
+            _fadeIn = null;
+        }
+
+        if (_fadeOut == null)
+            _fadeOut = StartCoroutine(MoveVolumeTowards(_minVolume));
+    }
+
+    private IEnumerator MoveVolumeTowards(float target)
+    {
+        if (_audioSource.isPlaying == false)
+            _audioSource.Play();
+
+        while (_audioSource.volume != target)
+        {
+            _audioSource.volume = Mathf.MoveTowards(_audioSource.volume, target, _volumeChangeSpeed * Time.deltaTime);
+            yield return null;
+        }
+
+        if (_audioSource.volume == _minVolume)
+            _audioSource.Stop();
     }
 }
