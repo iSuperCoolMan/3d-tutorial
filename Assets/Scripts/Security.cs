@@ -1,20 +1,21 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Security : MonoBehaviour
 {
-    [SerializeField] private Rogue _rogue;
-    [SerializeField] private Signaling _speakerSignalling;
+    [SerializeField] private UnityEvent _rogueEnter;
+    [SerializeField] private UnityEvent _rogueExit;
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.GetComponent<Rogue>() == _rogue)
-            _speakerSignalling.FadeIn();
+        if (collision.TryGetComponent(out Rogue _))
+            _rogueEnter.Invoke();
     }
 
     private void OnTriggerExit(Collider collision)
     {
-        if (collision.GetComponent<Rogue>() == _rogue)
-            _speakerSignalling.FadeOut();
+        if (collision.TryGetComponent(out Rogue _))
+            _rogueExit.Invoke();
     }
 }

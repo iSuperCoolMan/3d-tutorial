@@ -9,8 +9,8 @@ public class Signaling : MonoBehaviour
     [SerializeField][Range(0f, 1f)] private float _minVolume;
     [SerializeField][Range(0f, 1f)] private float _maxVolume;
 
-    private Coroutine _fadeIn;
-    private Coroutine _fadeOut;
+    private Coroutine _fadeInCoroutine;
+    private Coroutine _fadeOutCoroutine;
 
     private void OnValidate()
     {
@@ -20,42 +20,41 @@ public class Signaling : MonoBehaviour
 
     private void Start()
     {
-        _audioSource.Stop();
         _audioSource.volume = _minVolume;
     }
 
     public void FadeIn()
     {
-        if (_fadeOut != null)
-        {
-            StopCoroutine(_fadeOut);
-            _fadeOut = null;
-        }
-
-        if (_fadeIn == null)
-            _fadeIn = StartCoroutine(MoveVolumeTowards(_maxVolume));
+        _fadeInCoroutine = CoroutinesStateHandler(_maxVolume, _fadeInCoroutine, ref _fadeOutCoroutine);
     }
 
     public void FadeOut()
     {
-        if (_fadeIn != null)
-        {
-            StopCoroutine(_fadeIn);
-            _fadeIn = null;
-        }
-
-        if (_fadeOut == null)
-            _fadeOut = StartCoroutine(MoveVolumeTowards(_minVolume));
+        _fadeOutCoroutine = CoroutinesStateHandler(_minVolume, _fadeOutCoroutine, ref _fadeInCoroutine);
     }
 
-    private IEnumerator MoveVolumeTowards(float target)
+    private Coroutine CoroutinesStateHandler(float volumeEndPoint, Coroutine coroutineForStart, ref Coroutine coroutineForStop)
+    {
+        if (coroutineForStop != null)
+        {
+            StopCoroutine(coroutineForStop);
+            coroutineForStop = null;
+        }
+
+        if (coroutineForStart == null)
+            coroutineForStart = StartCoroutine(MoveVolumeTowards(volumeEndPoint));
+
+        return coroutineForStart;
+    }
+
+    private IEnumerator MoveVolumeTowards(float volumeEndPoint)
     {
         if (_audioSource.isPlaying == false)
             _audioSource.Play();
 
-        while (_audioSource.volume != target)
+        while (_audioSource.volume != volumeEndPoint)
         {
-            _audioSource.volume = Mathf.MoveTowards(_audioSource.volume, target, _volumeChangeSpeed * Time.deltaTime);
+            _audioSource.volume = Mathf.MoveTowards(_audioSource.volume, volumeEndPoint, _volumeChangeSpeed * Time.deltaTime);
             yield return null;
         }
 
