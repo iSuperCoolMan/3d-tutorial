@@ -1016,7 +1016,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 3992fd1d3c5dd3049913f4c95c41542a, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -1552,5 +1552,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d08b96b3a1e2364996e3267439cd70a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rogue: {fileID: 67574999}
-  _speakerSignalling: {fileID: 1353895658}
+  _rogueEnter:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1353895658}
+        m_TargetAssemblyTypeName: Signaling, Assembly-CSharp
+        m_MethodName: FadeIn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _rogueExit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1353895658}
+        m_TargetAssemblyTypeName: Signaling, Assembly-CSharp
+        m_MethodName: FadeOut
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
